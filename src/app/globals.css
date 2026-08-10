@@ -51,17 +51,32 @@ body {
     background: white;
   }
   .id-card-inner {
-    transform: none !important;
+    display: none !important;
   }
-  .id-card-front,
-  .id-card-back {
-    backface-visibility: visible !important;
+  .id-card-print {
+    display: block !important;
   }
-  .id-card-back {
-    position: static !important;
-    transform: none !important;
-    margin-top: 1rem;
+  .id-print-page {
+    page-break-after: always;
   }
+  .id-print-page:last-child {
+    page-break-after: auto;
+  }
+  .id-print-face {
+    width: 85.6mm;
+    height: 54mm;
+    overflow: hidden;
+    box-shadow: none;
+  }
+}
+
+@page {
+  size: 86mm 55mm;
+  margin: 0;
+}
+
+.id-card-print {
+  display: none;
 }
 
 @keyframes price-in {

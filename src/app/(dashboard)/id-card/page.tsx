@@ -12,9 +12,15 @@ import { Button } from "@/components/ui/button";
 import { PageLoader } from "@/components/ui/loader";
 import { Logo } from "@/components/ui/logo";
 import { COLLEGES } from "@/lib/constants/education";
-import type { Program } from "@/lib/types";
+import type { Program, Profile } from "@/lib/types";
 
-function Barcode({ value }: { value: string }) {
+function Barcode({
+  value,
+  className = "h-10",
+}: {
+  value: string;
+  className?: string;
+}) {
   const code = value || "MEDCONNECTME";
   const pairs = code.split("").map((c, i) => {
     const n = c.charCodeAt(0);
@@ -23,13 +29,153 @@ function Barcode({ value }: { value: string }) {
     return { bar, gap };
   });
   return (
-    <div className="mt-1 flex h-10 items-stretch overflow-hidden" aria-hidden>
+    <div
+      className={`${className} mt-1 flex items-stretch overflow-hidden`}
+      aria-hidden
+    >
       {pairs.map((p, i) => (
         <Fragment key={i}>
           <div style={{ width: p.bar }} className="h-full shrink-0 bg-slate-800" />
           <div style={{ width: p.gap }} className="h-full shrink-0" />
         </Fragment>
       ))}
+    </div>
+  );
+}
+
+function CardFront({
+  profile,
+  program,
+  qrUrl,
+  t,
+}: {
+  profile: Profile;
+  program: Program | null;
+  qrUrl: string | null;
+  t: (key: string) => string;
+}) {
+  return (
+    <div className="flex h-full w-full flex-col bg-white">
+      <div className="flex items-center gap-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-2.5">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white p-0.5">
+          <Logo className="h-full w-full rounded" />
+        </div>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-bold leading-tight text-white">
+            {t("appName")}
+          </p>
+          <p className="text-[9px] uppercase tracking-wider text-white/80">
+            {t("idCard.cardholder")}
+          </p>
+        </div>
+      </div>
+      <div className="flex flex-1 flex-col px-4 py-3">
+        <p className="truncate text-[15px] font-bold text-slate-800">
+          {profile.full_name}
+        </p>
+        <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1.5 text-[10px]">
+          <div className="min-w-0">
+            <p className="text-[8px] uppercase tracking-wide text-slate-400">
+              {t("idCard.regNo")}
+            </p>
+            <p className="truncate font-semibold text-slate-700">
+              {profile.reg_no ?? "-"}
+            </p>
+          </div>
+          <div className="min-w-0">
+            <p className="text-[8px] uppercase tracking-wide text-slate-400">
+              {t("idCard.yearOfStudy")}
+            </p>
+            <p className="truncate font-semibold text-slate-700">
+              {profile.year_of_study ? `Year ${profile.year_of_study}` : "-"}
+            </p>
+          </div>
+          <div className="col-span-2 min-w-0">
+            <p className="text-[8px] uppercase tracking-wide text-slate-400">
+              {t("idCard.program")}
+            </p>
+            <p className="truncate font-semibold text-slate-700">
+              {program?.name ?? "-"}
+            </p>
+          </div>
+        </div>
+        <div className="mt-auto flex items-end justify-between pt-1">
+          <div>
+            <p className="text-[8px] uppercase tracking-wide text-slate-400">
+              {t("idCard.expires")}
+            </p>
+            <p className="text-[11px] font-semibold text-slate-600">
+              2027-07-31
+            </p>
+          </div>
+          {qrUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={qrUrl}
+              alt="QR"
+              className="h-12 w-12 rounded-md border border-slate-200"
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CardBack({
+  profile,
+  collegeName,
+  t,
+}: {
+  profile: Profile;
+  collegeName: string;
+  t: (key: string) => string;
+}) {
+  return (
+    <div className="flex h-full w-full flex-col bg-white">
+      <div className="h-8 bg-slate-800" />
+      <div className="flex flex-1 flex-col px-4 py-2.5">
+        <p className="text-[8px] uppercase tracking-wide text-slate-400">
+          {t("idCard.signature")}
+        </p>
+        <svg viewBox="0 0 220 30" className="mt-0.5 h-6 w-full max-w-[180px]">
+          <path
+            d="M6 24 C 28 4, 44 28, 70 18 S 104 6, 128 20 S 158 10, 176 18 S 202 24, 214 10"
+            fill="none"
+            stroke="#334155"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+
+        <p className="mt-1.5 text-[8px] uppercase tracking-wide text-slate-400">
+          {t("idCard.barcode")}
+        </p>
+        <Barcode value={profile.reg_no ?? ""} className="h-7" />
+
+        <p className="mt-2 line-clamp-2 border-t border-slate-100 pt-1.5 text-[8px] leading-snug text-slate-500">
+          {t("idCard.terms")}
+        </p>
+
+        <div className="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-1.5">
+          <div className="min-w-0">
+            <p className="text-[8px] uppercase tracking-wide text-slate-400">
+              {t("idCard.ifFound")}
+            </p>
+            <p className="truncate text-[10px] font-semibold text-slate-700">
+              {collegeName}
+            </p>
+          </div>
+          <div className="shrink-0 text-right">
+            <p className="text-[8px] uppercase tracking-wide text-slate-400">
+              {t("idCard.helpdesk")}
+            </p>
+            <p className="text-[10px] font-semibold text-slate-700">
+              support@medconnectme.local
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -61,17 +207,10 @@ export default function IdCardPage() {
   if (loading) return <PageLoader />;
 
   const handlePrint = () => window.print();
-  const college = COLLEGES.find((c) => c.id === profile.college);
+  const collegeName = COLLEGES.find((c) => c.id === profile.college)?.name ?? t("appName");
 
   return (
     <div className="print:bg-white">
-      <div className="hidden print:block">
-        <h1 className="text-center text-2xl font-bold mb-6">
-          <Logo className="inline-block h-8 w-8 rounded-lg mr-2 align-[-3px]" />
-          {t("appName")} - {t("idCard.title")}
-        </h1>
-      </div>
-
       <PageHeader
         title={t("idCard.title")}
         subtitle={t("idCard.subtitle")}
@@ -93,147 +232,15 @@ export default function IdCardPage() {
         <div className="w-full max-w-sm">
           <div className="relative [perspective:1200px]">
             <div
-              className={`id-card-inner relative transition-transform duration-700 [transform-style:preserve-3d] ${
+              className={`id-card-inner relative aspect-[85.6/54] transition-transform duration-700 [transform-style:preserve-3d] ${
                 flipped ? "[transform:rotateY(180deg)]" : ""
               }`}
             >
-              <div className="id-card-front [backface-visibility:hidden] rounded-3xl overflow-hidden shadow-xl border border-slate-200 bg-white">
-                <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-5 py-4 flex items-center gap-3">
-                  <div className="h-14 w-14 rounded-xl bg-white p-1.5 flex items-center justify-center shrink-0">
-                    <Logo className="h-full w-full rounded-lg" />
-                  </div>
-                  <div className="text-white">
-                    <p className="font-bold leading-tight">{t("appName")}</p>
-                    <p className="text-[11px] opacity-80">
-                      {t("idCard.cardholder")}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="bg-white p-5">
-                  <p className="text-lg font-bold text-slate-800">
-                    {profile.full_name}
-                  </p>
-                  <p className="text-xs text-slate-400 mb-4">{profile.email}</p>
-
-                  <div className="grid grid-cols-2 gap-3 text-xs">
-                    <div>
-                      <p className="text-slate-400 uppercase tracking-wide text-[10px]">
-                        {t("idCard.regNo")}
-                      </p>
-                      <p className="font-semibold text-slate-700 mt-0.5">
-                        {profile.reg_no ?? "-"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400 uppercase tracking-wide text-[10px]">
-                        {t("idCard.yearOfStudy")}
-                      </p>
-                      <p className="font-semibold text-slate-700 mt-0.5">
-                        {profile.year_of_study
-                          ? `Year ${profile.year_of_study}`
-                          : "-"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400 uppercase tracking-wide text-[10px]">
-                        {t("idCard.program")}
-                      </p>
-                      <p className="font-semibold text-slate-700 mt-0.5">
-                        {program?.name ?? "-"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400 uppercase tracking-wide text-[10px]">
-                        {t("idCard.phone")}
-                      </p>
-                      <p className="font-semibold text-slate-700 mt-0.5">
-                        {profile.phone ?? "-"}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-end justify-between mt-5 pt-4 border-t border-slate-100">
-                    <div>
-                      <p className="text-[10px] text-slate-400 uppercase tracking-wide">
-                        {t("idCard.expires")}
-                      </p>
-                      <p className="text-xs font-semibold text-slate-600">
-                        2027-07-31
-                      </p>
-                    </div>
-                    {qrUrl && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={qrUrl}
-                        alt="QR"
-                        className="h-16 w-16 rounded-lg border border-slate-200"
-                      />
-                    )}
-                  </div>
-                </div>
+              <div className="id-card-front absolute inset-0 [backface-visibility:hidden] rounded-3xl overflow-hidden shadow-xl border border-slate-200">
+                <CardFront profile={profile} program={program} qrUrl={qrUrl} t={t} />
               </div>
-
               <div className="id-card-back absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-3xl overflow-hidden shadow-xl border border-slate-200">
-                <div className="h-10 bg-slate-800 relative">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="flex w-full gap-2 px-6">
-                      {Array.from({ length: 14 }).map((_, i) => (
-                        <div key={i} className="h-4 w-4 rounded-full bg-slate-700" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-white p-5 flex h-[calc(100%-2.5rem)] flex-col">
-                  <p className="text-[10px] text-slate-400 uppercase tracking-wide">
-                    {t("idCard.magneticStripe")}
-                  </p>
-
-                  <div className="mt-4">
-                    <p className="text-[10px] text-slate-400 uppercase tracking-wide">
-                      {t("idCard.signature")}
-                    </p>
-                    <svg viewBox="0 0 220 40" className="mt-1 h-9 w-full max-w-[200px]">
-                      <path
-                        d="M6 30 C 28 6, 44 36, 70 22 S 104 8, 128 24 S 158 12, 176 22 S 202 30, 214 14"
-                        fill="none"
-                        stroke="#334155"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </div>
-
-                  <div className="mt-4">
-                    <p className="text-[10px] text-slate-400 uppercase tracking-wide">
-                      {t("idCard.barcode")}
-                    </p>
-                    <Barcode value={profile.reg_no ?? ""} />
-                  </div>
-
-                  <p className="mt-4 text-[10px] leading-relaxed text-slate-500 border-t border-slate-100 pt-3">
-                    {t("idCard.terms")}
-                  </p>
-
-                  <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-                    <div className="min-w-0">
-                      <p className="text-[10px] text-slate-400 uppercase tracking-wide">
-                        {t("idCard.ifFound")}
-                      </p>
-                      <p className="text-xs font-semibold text-slate-700 mt-0.5 truncate">
-                        {college?.name ?? t("appName")}
-                      </p>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <p className="text-[10px] text-slate-400 uppercase tracking-wide">
-                        {t("idCard.helpdesk")}
-                      </p>
-                      <p className="text-xs font-semibold text-slate-700 mt-0.5">
-                        support@medconnectme.local
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <CardBack profile={profile} collegeName={collegeName} t={t} />
               </div>
             </div>
           </div>
@@ -256,6 +263,19 @@ export default function IdCardPage() {
           <Printer className="h-4 w-4" />
           {t("idCard.printCard")}
         </Button>
+      </div>
+
+      <div className="id-card-print">
+        <div className="id-print-page">
+          <div className="id-print-face">
+            <CardFront profile={profile} program={program} qrUrl={qrUrl} t={t} />
+          </div>
+        </div>
+        <div className="id-print-page">
+          <div className="id-print-face">
+            <CardBack profile={profile} collegeName={collegeName} t={t} />
+          </div>
+        </div>
       </div>
     </div>
   );
