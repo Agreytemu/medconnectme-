@@ -1,13 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { LogOut } from "lucide-react";
-import { getNav } from "./nav-items";
+import { NavList } from "./nav-list";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { LanguageToggle } from "./language-toggle";
 import type { Role } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/logo";
 
 export function Sidebar({
@@ -17,9 +14,7 @@ export function Sidebar({
   role: Role;
   onLogout: () => void;
 }) {
-  const pathname = usePathname();
   const { t } = useLang();
-  const nav = getNav(role);
 
   return (
     <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
@@ -33,31 +28,7 @@ export function Sidebar({
         </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5">
-        {nav.map((item) => {
-          const active =
-            pathname === item.href ||
-            (item.href !== "/dashboard" &&
-              item.href !== "/admin" &&
-              pathname.startsWith(item.href));
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors",
-                active
-                  ? "bg-emerald-50 text-emerald-700"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-800"
-              )}
-            >
-              <Icon className="h-[18px] w-[18px]" />
-              {t(item.labelKey)}
-            </Link>
-          );
-        })}
-      </nav>
+      <NavList role={role} />
 
       <div className="p-3 border-t border-slate-100 space-y-2">
         <div className="flex items-center justify-between px-1">

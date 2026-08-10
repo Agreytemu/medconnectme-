@@ -7,6 +7,7 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 import type { Dictionary } from "@/lib/i18n/translations";
 import { Panel } from "./scroller";
 import { Reveal } from "./reveal";
+import { Typewriter } from "./typewriter";
 
 function Kicker({ children }: { children: ReactNode }) {
   return (
@@ -60,7 +61,7 @@ export function DailyView() {
               {t("landing.daily.title")}
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-slate-600">
-              {t("landing.daily.body")}
+              <Typewriter text={t("landing.daily.body")} />
             </p>
           </Reveal>
         </div>
@@ -90,7 +91,7 @@ export function Results() {
               {t("landing.results.title")}
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-slate-600">
-              {t("landing.results.body")}
+              <Typewriter text={t("landing.results.body")} />
             </p>
           </Reveal>
         </div>
@@ -129,7 +130,7 @@ export function Wards() {
               {t("landing.wards.title")}
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-slate-600">
-              {t("landing.wards.body")}
+              <Typewriter text={t("landing.wards.body")} />
             </p>
           </Reveal>
         </div>
@@ -150,7 +151,7 @@ export function Reference() {
               {t("landing.reference.title")}
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-slate-600">
-              {t("landing.reference.body")}
+              <Typewriter text={t("landing.reference.body")} />
             </p>
           </Reveal>
         </div>
@@ -180,7 +181,7 @@ export function AITutor() {
               {t("landing.ai.title")}
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-slate-600">
-              {t("landing.ai.body")}
+              <Typewriter text={t("landing.ai.body")} />
             </p>
           </Reveal>
         </div>
@@ -200,12 +201,12 @@ export function AITutor() {
                   <User className="h-3.5 w-3.5" />
                 </span>
                 <p className="rounded-xl bg-white px-4 py-2.5 text-sm leading-relaxed text-slate-700 ring-1 ring-slate-900/[0.06]">
-                  {t("landing.ai.user1")}
+                  <Typewriter text={t("landing.ai.user1")} />
                 </p>
               </div>
               <div className="flex items-start justify-end gap-3">
                 <p className="max-w-[85%] rounded-xl bg-emerald-600 px-4 py-2.5 text-sm leading-relaxed text-white">
-                  {t("landing.ai.ai1")}
+                  <Typewriter text={t("landing.ai.ai1")} delay={900} />
                 </p>
               </div>
               <div className="flex items-start gap-3">
@@ -213,12 +214,12 @@ export function AITutor() {
                   <User className="h-3.5 w-3.5" />
                 </span>
                 <p className="rounded-xl bg-white px-4 py-2.5 text-sm leading-relaxed text-slate-700 ring-1 ring-slate-900/[0.06]">
-                  {t("landing.ai.user2")}
+                  <Typewriter text={t("landing.ai.user2")} delay={1900} />
                 </p>
               </div>
               <div className="flex items-start justify-end gap-3">
                 <p className="max-w-[85%] rounded-xl bg-emerald-600 px-4 py-2.5 text-sm leading-relaxed text-white">
-                  {t("landing.ai.ai2")}
+                  <Typewriter text={t("landing.ai.ai2")} delay={2900} />
                 </p>
               </div>
             </div>
@@ -243,7 +244,7 @@ export function SmallThings() {
               {t("landing.small.title")}
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-slate-600">
-              {t("landing.small.body")}
+              <Typewriter text={t("landing.small.body")} />
             </p>
           </Reveal>
           <div className="mt-10 space-y-8">

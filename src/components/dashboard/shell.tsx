@@ -29,7 +29,7 @@ function Shell({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen bg-slate-50">
       <Sidebar role={profile.role} onLogout={handleLogout} />
       <div className="flex-1 flex flex-col min-w-0">
-        <TopBar />
+        <TopBar role={profile.role} onLogout={handleLogout} />
         <main className="flex-1 lg:p-6 px-4 pb-24 lg:pb-6 pt-4 max-w-6xl w-full mx-auto">
           {loggingOut ? <PageLoader /> : children}
         </main>
