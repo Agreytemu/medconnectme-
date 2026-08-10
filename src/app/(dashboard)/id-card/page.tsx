@@ -69,7 +69,7 @@ export default function IdCardPage() {
       <div className="flex justify-center mt-2">
         <div className="w-full max-w-sm rounded-3xl overflow-hidden shadow-xl border border-slate-200">
           <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-5 py-4 flex items-center gap-3">
-            <div className="h-12 w-12 rounded-xl bg-white p-1.5 flex items-center justify-center shrink-0">
+            <div className="h-14 w-14 rounded-xl bg-white p-1.5 flex items-center justify-center shrink-0">
               <Logo className="h-full w-full rounded-lg" />
             </div>
             <div className="text-white">

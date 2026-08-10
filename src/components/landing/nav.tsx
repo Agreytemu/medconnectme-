@@ -49,7 +49,7 @@ export function LandingNav() {
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Logo className="h-7 w-7 rounded-lg" />
+          <Logo className="h-8 w-8 rounded-lg" />
           <span className="text-[15px] font-semibold tracking-tight text-slate-900">
             MedConnectMe
           </span>

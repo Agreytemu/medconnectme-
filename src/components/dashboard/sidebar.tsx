@@ -19,7 +19,7 @@ export function Sidebar({
   return (
     <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
       <div className="flex items-center gap-2.5 px-5 h-16 border-b border-slate-100">
-        <Logo className="h-9 w-9 rounded-xl" />
+        <Logo className="h-10 w-10 rounded-xl" />
         <div>
           <p className="font-bold text-slate-800 leading-tight">{t("appName")}</p>
           <p className="text-[10px] text-slate-400 leading-tight">

@@ -29,7 +29,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
             href="/"
             className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition-colors hover:text-emerald-600"
           >
-            <Logo className="h-7 w-7 rounded-md" />
+            <Logo className="h-8 w-8 rounded-md" />
             {t("appName")}
           </Link>
           <LanguageToggle />

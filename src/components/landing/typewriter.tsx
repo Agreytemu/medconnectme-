@@ -1,6 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+
+function useIsClient() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+}
+
+function useMediaQuery(query: string) {
+  return useSyncExternalStore(
+    (cb) => {
+      const mq = window.matchMedia(query);
+      mq.addEventListener("change", cb);
+      return () => mq.removeEventListener("change", cb);
+    },
+    () => window.matchMedia(query).matches,
+    () => false
+  );
+}
 
 export function Typewriter({
   text,
@@ -22,20 +42,16 @@ export function Typewriter({
     setStarted(false);
   }
 
+  const isClient = useIsClient();
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const isReduced = useMediaQuery("(prefers-reduced-motion: reduce)");
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    const desktop = window.matchMedia("(min-width: 1024px)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     let index = 0;
     let timer: number | undefined;
-
-    const finish = () => {
-      setShown(text);
-      setStarted(false);
-    };
 
     const tick = () => {
       const step = Math.max(1, Math.round(text.length / 60));
@@ -48,10 +64,6 @@ export function Typewriter({
     };
 
     const begin = () => {
-      if (desktop || reduced) {
-        finish();
-        return;
-      }
       if (delay > 0) timer = window.setTimeout(tick, delay);
       else tick();
     };
@@ -73,15 +85,17 @@ export function Typewriter({
     };
   }, [text, delay]);
 
+  const instant = !isClient || isDesktop || isReduced;
   const typing = started && shown.length < text.length;
+  const display = instant ? text : shown;
 
   return (
     <span ref={ref} className={className}>
-      {shown}
+      {display}
       <span
         aria-hidden
         className={`ml-0.5 inline-block h-[1em] w-[2px] align-middle bg-current ${
-          typing ? "animate-pulse" : "hidden"
+          typing && !instant ? "animate-pulse" : "hidden"
         }`}
       />
     </span>

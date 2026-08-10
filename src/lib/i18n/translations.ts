@@ -80,6 +80,7 @@ export const dictionary = {
       users: "Users",
       logout: "Logout",
       sms: "SMS",
+      more: "More",
     },
     auth: {
       login: "Login",
@@ -688,6 +689,7 @@ export const dictionary = {
       users: "Watumiaji",
       logout: "Toka",
       sms: "SMS",
+      more: "Zaidi",
     },
     auth: {
       login: "Ingia",

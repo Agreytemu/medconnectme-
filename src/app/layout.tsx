@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/i18n/LanguageContext";
@@ -17,6 +17,13 @@ export const metadata: Metadata = {
   title: "MedConnectMe - Dashboard for Medical Students",
   description:
     "A quiet place for the daily work of medical school - timetable, results, rotations, case logs, drug formulary and your student ID, in English or Kiswahili.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

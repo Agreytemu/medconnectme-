@@ -73,7 +73,7 @@ export default function LoginPage() {
     <AuthShell>
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center mb-8">
-          <Logo className="h-16 w-16 rounded-2xl shadow-lg shadow-emerald-600/30 mb-4" />
+          <Logo className="h-20 w-20 rounded-2xl shadow-lg shadow-emerald-600/30 mb-4" />
           <h1 className="text-2xl font-bold text-slate-800">{t("appName")}</h1>
           <p className="text-sm text-slate-500 mt-1">{t("auth.loginSubtitle")}</p>
         </div>

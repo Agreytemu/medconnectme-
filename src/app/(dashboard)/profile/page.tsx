@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input, Select, Field, Textarea } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Modal } from "@/components/ui/modal";
+import { LogoutButton } from "@/components/dashboard/logout-button";
 import { formatDate } from "@/lib/utils";
 
 export default function ProfilePage() {
@@ -53,9 +54,12 @@ export default function ProfilePage() {
         title={t("profile.title")}
         subtitle={t("profile.subtitle")}
         action={
-          <Button variant="outline" size="sm" onClick={() => setEditing(true)}>
-            {t("profile.editProfile")}
-          </Button>
+          <div className="flex items-center gap-2">
+            <LogoutButton />
+            <Button variant="outline" size="sm" onClick={() => setEditing(true)}>
+              {t("profile.editProfile")}
+            </Button>
+          </div>
         }
       />
 
