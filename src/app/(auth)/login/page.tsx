@@ -3,12 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { HeartPulse, Sparkles, GraduationCap, ShieldCheck } from "lucide-react";
+import { Sparkles, GraduationCap, ShieldCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { Button } from "@/components/ui/button";
 import { FloatingInput } from "@/components/ui/floating-input";
+import { Logo } from "@/components/ui/logo";
 import { isDemoMode, demoCredentials } from "@/lib/demo/config";
 import { setDemoCookie } from "@/lib/demo/session";
 
@@ -72,9 +73,7 @@ export default function LoginPage() {
     <AuthShell>
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center mb-8">
-          <div className="h-16 w-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center mb-4 shadow-lg shadow-emerald-600/30">
-            <HeartPulse className="h-8 w-8" />
-          </div>
+          <Logo className="h-16 w-16 rounded-2xl shadow-lg shadow-emerald-600/30 mb-4" />
           <h1 className="text-2xl font-bold text-slate-800">{t("appName")}</h1>
           <p className="text-sm text-slate-500 mt-1">{t("auth.loginSubtitle")}</p>
         </div>

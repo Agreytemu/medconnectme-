@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { HeartPulse } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { useScroller } from "./scroller";
+import { Logo } from "@/components/ui/logo";
 
 const links = [
   { key: "product", href: "#daily" },
@@ -49,9 +49,7 @@ export function LandingNav() {
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-emerald-600 text-white">
-            <HeartPulse className="h-4 w-4" />
-          </span>
+          <Logo className="h-7 w-7 rounded-lg" />
           <span className="text-[15px] font-semibold tracking-tight text-slate-900">
             MedConnectMe
           </span>

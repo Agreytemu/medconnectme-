@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { HeartPulse } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { LanguageToggle } from "@/components/dashboard/language-toggle";
+import { Logo } from "@/components/ui/logo";
 
 export function AuthShell({ children }: { children: React.ReactNode }) {
   const { t } = useLang();
@@ -11,7 +11,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-gradient-to-b from-emerald-50 via-white to-white">
       <video
         className="auth-bg absolute inset-0 h-full w-full object-cover"
-        src="/video/7507342-hd_1920_1080_25fps.mp4"
+        src="/video/ecg-bg.mp4"
         autoPlay
         muted
         loop
@@ -29,7 +29,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
             href="/"
             className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition-colors hover:text-emerald-600"
           >
-            <HeartPulse className="h-5 w-5 text-emerald-600" />
+            <Logo className="h-7 w-7 rounded-md" />
             {t("appName")}
           </Link>
           <LanguageToggle />

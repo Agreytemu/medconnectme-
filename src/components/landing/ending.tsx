@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Check, ChevronDown, HeartPulse } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import type { Dictionary } from "@/lib/i18n/translations";
 import { Panel } from "./scroller";
+import { Logo } from "@/components/ui/logo";
 
 const planKeys = ["free", "premium", "institution"] as const;
 
@@ -196,9 +197,7 @@ export function FAQ() {
         <footer className="flex flex-col gap-8">
           <div>
             <div className="flex items-center gap-2">
-              <span className="grid h-7 w-7 place-items-center rounded-lg bg-emerald-600 text-white">
-                <HeartPulse className="h-4 w-4" />
-              </span>
+              <Logo className="h-7 w-7 rounded-lg" />
               <span className="text-[15px] font-semibold tracking-tight text-slate-900">
                 MedConnectMe
               </span>

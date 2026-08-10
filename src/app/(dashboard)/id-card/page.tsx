@@ -10,6 +10,7 @@ import { useAsync } from "@/lib/hooks/use-async";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { PageLoader } from "@/components/ui/loader";
+import { Logo } from "@/components/ui/logo";
 import type { Program } from "@/lib/types";
 
 export default function IdCardPage() {
@@ -37,19 +38,13 @@ export default function IdCardPage() {
 
   if (loading) return <PageLoader />;
 
-  const initials = profile.full_name
-    .split(" ")
-    .slice(0, 2)
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase();
-
   const handlePrint = () => window.print();
 
   return (
     <div className="print:bg-white">
       <div className="hidden print:block">
         <h1 className="text-center text-2xl font-bold mb-6">
+          <Logo className="inline-block h-8 w-8 rounded-lg mr-2 align-[-3px]" />
           {t("appName")} - {t("idCard.title")}
         </h1>
       </div>
@@ -74,8 +69,8 @@ export default function IdCardPage() {
       <div className="flex justify-center mt-2">
         <div className="w-full max-w-sm rounded-3xl overflow-hidden shadow-xl border border-slate-200">
           <div className="bg-gradient-to-r from-emerald-600 to-teal-500 px-5 py-4 flex items-center gap-3">
-            <div className="h-12 w-12 rounded-xl bg-white/20 flex items-center justify-center text-white font-bold text-lg">
-              {initials}
+            <div className="h-12 w-12 rounded-xl bg-white p-1.5 flex items-center justify-center shrink-0">
+              <Logo className="h-full w-full rounded-lg" />
             </div>
             <div className="text-white">
               <p className="font-bold leading-tight">{t("appName")}</p>

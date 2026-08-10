@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, HeartPulse } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { getNav } from "./nav-items";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { LanguageToggle } from "./language-toggle";
 import type { Role } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/ui/logo";
 
 export function Sidebar({
   role,
@@ -23,9 +24,7 @@ export function Sidebar({
   return (
     <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
       <div className="flex items-center gap-2.5 px-5 h-16 border-b border-slate-100">
-        <div className="h-9 w-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center">
-          <HeartPulse className="h-5 w-5" />
-        </div>
+        <Logo className="h-9 w-9 rounded-xl" />
         <div>
           <p className="font-bold text-slate-800 leading-tight">{t("appName")}</p>
           <p className="text-[10px] text-slate-400 leading-tight">

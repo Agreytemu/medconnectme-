@@ -3,12 +3,11 @@
 import { Bell } from "lucide-react";
 import Link from "next/link";
 import { LanguageToggle } from "./language-toggle";
-import { useLang } from "@/lib/i18n/LanguageContext";
 import { useProfile } from "@/lib/profile-context";
 import { initials } from "@/lib/utils";
+import { Logo } from "@/components/ui/logo";
 
 export function TopBar() {
-  const { t } = useLang();
   const profile = useProfile();
 
   return (
@@ -21,9 +20,7 @@ export function TopBar() {
           <p className="text-sm font-semibold text-slate-800 leading-tight truncate max-w-[140px]">
             {profile.full_name}
           </p>
-          <p className="text-[10px] text-slate-400 leading-tight">
-            {t("appName")}
-          </p>
+          <Logo className="h-3 w-3 rounded-sm" />
         </div>
       </div>
       <div className="flex items-center gap-2">
