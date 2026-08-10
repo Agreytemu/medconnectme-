@@ -50,6 +50,18 @@ body {
   body {
     background: white;
   }
+  .id-card-inner {
+    transform: none !important;
+  }
+  .id-card-front,
+  .id-card-back {
+    backface-visibility: visible !important;
+  }
+  .id-card-back {
+    position: static !important;
+    transform: none !important;
+    margin-top: 1rem;
+  }
 }
 
 @keyframes price-in {

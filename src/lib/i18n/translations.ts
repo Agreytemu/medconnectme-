@@ -368,6 +368,15 @@ export const dictionary = {
       printCard: "Print ID Card",
       cardholder: "Student",
       studentName: "Full Name",
+      magneticStripe: "Magnetic Stripe",
+      signature: "Authorized Signature",
+      barcode: "Barcode",
+      terms:
+        "This card remains the property of MedConnectMe. If found, please return it to any college office or contact the helpdesk below.",
+      ifFound: "If found, return to",
+      helpdesk: "Helpdesk",
+      flip: "Flip card",
+      showFront: "Show front",
     },
     profile: {
       title: "My Profile",
@@ -977,6 +986,15 @@ export const dictionary = {
       printCard: "Chapisha Kadi",
       cardholder: "Mwanafunzi",
       studentName: "Jina Kamili",
+      magneticStripe: "Ukanda wa Sumaku",
+      signature: "Sahihi Iliyoidhinishwa",
+      barcode: "Barcode",
+      terms:
+        "Kadi hii ni mali ya MedConnectMe. Ikibainika, tafadhali irudishe katika ofisi yoyote ya chuo au wasiliana na msaada hapa chini.",
+      ifFound: "Ikibainika, irudishe kwa",
+      helpdesk: "Msaada",
+      flip: "Geuza kadi",
+      showFront: "Onyesha mbele",
     },
     profile: {
       title: "Wasifu Wangu",
