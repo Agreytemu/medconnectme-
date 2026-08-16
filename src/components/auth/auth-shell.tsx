@@ -34,11 +34,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
           </Link>
           <LanguageToggle />
         </header>
-        <div className="flex flex-1 flex-col items-center justify-center px-4 pb-16">
-          <div className="w-full max-w-sm rounded-2xl border border-white/40 bg-white/25 p-6 shadow-xl backdrop-blur-md">
-            {children}
-          </div>
-        </div>
+        <div className="flex flex-1 min-h-0">{children}</div>
       </div>
     </div>
   );

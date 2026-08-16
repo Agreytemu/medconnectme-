@@ -11,6 +11,7 @@ import {
   SmallThings,
 } from "./sections";
 import { Pricing, FAQ } from "./ending";
+import { About, Contact } from "./about-contact";
 import { PanelScroller } from "./scroller";
 
 export function LandingPage() {
@@ -18,6 +19,7 @@ export function LandingPage() {
     <div className="min-h-screen bg-white">
       <PanelScroller nav={<LandingNav />}>
         <Hero />
+        <About />
         <DailyView />
         <Results />
         <Wards />
@@ -26,6 +28,7 @@ export function LandingPage() {
         <SmallThings />
         <Pricing />
         <FAQ />
+        <Contact />
       </PanelScroller>
     </div>
   );

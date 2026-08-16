@@ -9,7 +9,9 @@ import { Logo } from "@/components/ui/logo";
 const links = [
   { key: "product", href: "#daily" },
   { key: "aiTutor", href: "#ai" },
+  { key: "about", href: "#about" },
   { key: "pricing", href: "#pricing" },
+  { key: "contact", href: "#contact" },
   { key: "faq", href: "#faq" },
 ] as const;
 
