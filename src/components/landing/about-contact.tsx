@@ -5,6 +5,7 @@ import { Mail, MapPin, Clock, Send } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { Panel } from "./scroller";
 import { Reveal } from "./reveal";
+import { FrameSequence } from "./frame-sequence";
 
 function Kicker({ children }: { children: React.ReactNode }) {
   return (
@@ -14,18 +15,11 @@ function Kicker({ children }: { children: React.ReactNode }) {
   );
 }
 
-const aboutFrames = [
-  { n: "001", title: "landing.about.frame1Title", text: "landing.about.frame1Text" },
-  { n: "100", title: "landing.about.frame2Title", text: "landing.about.frame2Text" },
-  { n: "200", title: "landing.about.frame3Title", text: "landing.about.frame3Text" },
-  { n: "300", title: "landing.about.frame4Title", text: "landing.about.frame4Text" },
-];
-
 export function About() {
   const { t } = useLang();
   return (
     <Panel id="about">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto w-full max-w-5xl">
         <Reveal>
           <Kicker>{t("landing.about.kicker")}</Kicker>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900">
@@ -36,28 +30,7 @@ export function About() {
           </p>
         </Reveal>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {aboutFrames.map((f, i) => (
-            <Reveal key={f.n} delay={i * 80}>
-              <figure className="overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-900/[0.07]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`/aboutus%20frames/ezgif-7c5b6fc9987d975f-jpg/ezgif-frame-${f.n}.jpg`}
-                  alt={t(f.title)}
-                  className="aspect-[4/3] w-full object-cover"
-                />
-                <figcaption className="p-4">
-                  <p className="text-sm font-semibold text-slate-900">
-                    {t(f.title)}
-                  </p>
-                  <p className="mt-1 text-sm leading-relaxed text-slate-600">
-                    {t(f.text)}
-                  </p>
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
-        </div>
+        <FrameSequence />
       </div>
     </Panel>
   );
