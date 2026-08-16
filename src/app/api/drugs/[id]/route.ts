@@ -12,6 +12,7 @@ type FdaResult = {
   warnings_and_cautions?: string[];
   warnings_and_precautions?: string[];
   contraindications?: string[];
+  drug_interactions?: string[];
   openfda?: {
     brand_name?: string[];
     generic_name?: string[];
@@ -44,7 +45,7 @@ async function fetchLabel(id: string) {
   const url = `${FDA_LABEL_URL}?search=${encodeURIComponent(`id:"${id}"`)}&limit=1`;
   let res: Response;
   try {
-    res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+    res = await fetch(url, { signal: AbortSignal.timeout(60000) });
   } catch {
     return null;
   }
@@ -69,6 +70,7 @@ async function fetchLabel(id: string) {
     sideEffects: sectionText(r.adverse_reactions),
     warnings,
     contraindications: sectionText(r.contraindications),
+    interactions: sectionText(r.drug_interactions),
   };
 }
 
