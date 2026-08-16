@@ -1,62 +1,220 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, GraduationCap, ShieldCheck } from "lucide-react";
+import {
+  Sparkles,
+  GraduationCap,
+  ShieldCheck,
+  CalendarDays,
+  Activity,
+  ClipboardList,
+  ArrowLeft,
+} from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
-import { GitHubInput, GitHubSelect } from "@/components/ui/github-input";
+import {
+  GitHubInput,
+  GitHubSelect,
+  PasswordField,
+} from "@/components/ui/github-input";
+import { AuthCharacter, type CharStatus } from "@/components/auth/auth-character";
 import { COLLEGES, PROGRAMS } from "@/lib/constants/education";
 import { isDemoMode, demoCredentials } from "@/lib/demo/config";
 import { setDemoCookie } from "@/lib/demo/session";
 
 type Mode = "login" | "register";
 
+const SYSTEM_FONT =
+  'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+
+type Binder = {
+  onFocusCapture: (e: React.FocusEvent) => void;
+  onBlurCapture: (e: React.FocusEvent) => void;
+  onInputCapture: () => void;
+  setStatus: (s: CharStatus) => void;
+  setPwVisible: (name: string, visible: boolean) => void;
+};
+
 export function AuthScreen({ initialMode }: { initialMode: Mode }) {
   const { t } = useLang();
   const [mode, setMode] = useState<Mode>(initialMode);
 
+  const [activeField, setActiveField] = useState<string | null>(null);
+  const [isTyping, setIsTyping] = useState(false);
+  const [status, setStatusState] = useState<CharStatus>("idle");
+  const [pwVisible, setPwVisibleState] = useState<Record<string, boolean>>({});
+  const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const setStatus = (s: CharStatus) => {
+    setStatusState(s);
+    if (s === "error" && typingTimer.current) {
+      setTimeout(() => setStatusState("idle"), 2600);
+    }
+  };
+
+  const setPwVisible = (name: string, visible: boolean) =>
+    setPwVisibleState((prev) => ({ ...prev, [name]: visible }));
+
+  const onFieldFocus = (name: string | null) => setActiveField(name);
+  const onFieldBlur = (name: string | null) =>
+    setActiveField((cur) => (cur === name ? null : cur));
+
+  const onType = () => {
+    setIsTyping(true);
+    if (typingTimer.current) clearTimeout(typingTimer.current);
+    typingTimer.current = setTimeout(() => setIsTyping(false), 700);
+  };
+
+  const onFocusCapture = (e: React.FocusEvent) => {
+    const f = (e.target as HTMLElement).getAttribute("data-field");
+    if (f) onFieldFocus(f);
+  };
+  const onBlurCapture = (e: React.FocusEvent) => {
+    const f = (e.target as HTMLElement).getAttribute("data-field");
+    if (f) onFieldBlur(f);
+  };
+  const onInputCapture = () => onType();
+
+  const switchMode = (m: Mode) => {
+    setMode(m);
+    setActiveField(null);
+    setIsTyping(false);
+    setStatusState("idle");
+    setPwVisibleState({});
+  };
+
+  const privacy =
+    !!activeField &&
+    activeField.startsWith("password") &&
+    !pwVisible[activeField];
+
+  const binder: Binder = {
+    onFocusCapture,
+    onBlurCapture,
+    onInputCapture,
+    setStatus,
+    setPwVisible,
+  };
+
+  const features = [
+    { icon: CalendarDays, label: t("dashboard.todaySchedule") },
+    { icon: GraduationCap, label: t("dashboard.recentResults") },
+    { icon: Activity, label: t("dashboard.activeRotation") },
+    { icon: ClipboardList, label: t("dashboard.caseLogs") },
+  ];
+
   return (
-    <div className="flex h-full w-full">
-      <aside className="hidden lg:flex lg:w-1/2 flex-col justify-center bg-gradient-to-br from-emerald-600 to-teal-500 p-12 text-white">
-        <Logo className="h-14 w-14 rounded-2xl bg-white/15 p-2 mb-8" />
-        <h1 className="max-w-md text-4xl font-bold leading-tight">
-          {mode === "login" ? t("auth.loginMotto") : t("auth.registerMotto")}
-        </h1>
-        <p className="mt-4 max-w-md text-emerald-50/90">
-          {mode === "login" ? t("auth.loginMottoSub") : t("auth.registerMottoSub")}
-        </p>
+    <div className="flex h-full w-full" style={{ fontFamily: SYSTEM_FONT }}>
+      <aside className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-gradient-to-br from-emerald-600 to-teal-500 p-12 text-white lg:flex">
+        <div className="relative z-10">
+          <div className="flex items-center gap-3">
+            <Logo className="h-10 w-10 rounded-xl bg-white/15 p-1.5" />
+            <span className="text-lg font-semibold">{t("appName")}</span>
+          </div>
+        </div>
+
+        <div className="relative z-10 max-w-md">
+          <h1 className="text-4xl font-bold leading-tight">
+            {mode === "login" ? t("auth.loginMotto") : t("auth.registerMotto")}
+          </h1>
+          <p className="mt-4 text-emerald-50/90">
+            {mode === "login"
+              ? t("auth.loginMottoSub")
+              : t("auth.registerMottoSub")}
+          </p>
+
+          <svg
+            className="mt-8 w-64 text-white/70"
+            viewBox="0 0 320 60"
+            fill="none"
+            aria-hidden
+          >
+            <path
+              className="hand-draw"
+              d="M0 30 H70 L82 30 L92 10 L104 50 L116 22 L126 30 H170 L182 30 L192 14 L204 46 L216 30 H320"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+
+          <ul className="mt-10 space-y-3">
+            {features.map((f) => (
+              <li
+                key={f.label}
+                className="flex items-center gap-3 text-sm text-emerald-50/90"
+              >
+                <span className="grid h-8 w-8 place-items-center rounded-lg bg-white/15">
+                  <f.icon className="h-4 w-4" />
+                </span>
+                {f.label}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="relative z-10 text-xs text-emerald-50/70">
+          {t("appTagline")}
+        </div>
       </aside>
 
       <div className="flex flex-1 items-center justify-center overflow-y-auto p-4 lg:p-8">
-        <div className="my-auto w-full max-w-[400px] rounded-md border border-[#d0d7de] bg-white p-6 shadow-sm sm:p-7">
-          <div className="mb-5">
-            <h2 className="text-lg font-semibold text-slate-900">
-              {mode === "login" ? t("auth.loginTitle") : t("auth.registerTitle")}
-            </h2>
-            <p className="mt-1 text-sm text-slate-500">
-              {mode === "login"
-                ? t("auth.loginSubtitle")
-                : t("auth.registerSubtitle")}
-            </p>
+        <div className="my-auto w-full max-w-[420px]">
+          <div className="mb-6 flex items-center gap-3 lg:hidden">
+            <Logo className="h-9 w-9 rounded-lg bg-emerald-600 p-1.5" />
+            <div>
+              <p className="text-sm font-semibold text-slate-800">
+                {t("appName")}
+              </p>
+              <p className="text-xs text-slate-500">{t("appTagline")}</p>
+            </div>
           </div>
 
-          <div className="mb-6 flex gap-6 border-b border-[#d0d7de]">
-            <ToggleButton
-              active={mode === "login"}
-              onClick={() => setMode("login")}
-              label={t("auth.login")}
-            />
-            <ToggleButton
-              active={mode === "register"}
-              onClick={() => setMode("register")}
-              label={t("auth.register")}
-            />
-          </div>
+          <div className="rounded-md border border-[#d0d7de] bg-white p-6 shadow-sm sm:p-7">
+            <div className="mb-5 flex items-start justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900">
+                  {mode === "login"
+                    ? t("auth.loginTitle")
+                    : t("auth.registerTitle")}
+                </h2>
+                <p className="mt-1 text-sm text-slate-500">
+                  {mode === "login"
+                    ? t("auth.loginSubtitle")
+                    : t("auth.registerSubtitle")}
+                </p>
+              </div>
+              <AuthCharacter
+                activeField={activeField}
+                isTyping={isTyping}
+                status={status}
+                privacy={privacy}
+              />
+            </div>
 
-          {mode === "login" ? <LoginForm /> : <RegisterForm />}
+            <div className="mb-6 flex gap-6 border-b border-[#d0d7de]">
+              <ToggleButton
+                active={mode === "login"}
+                onClick={() => switchMode("login")}
+                label={t("auth.login")}
+              />
+              <ToggleButton
+                active={mode === "register"}
+                onClick={() => switchMode("register")}
+                label={t("auth.register")}
+              />
+            </div>
+
+            {mode === "login" ? (
+              <LoginForm binder={binder} />
+            ) : (
+              <RegisterForm binder={binder} />
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -88,7 +246,7 @@ function ToggleButton({
   );
 }
 
-function LoginForm() {
+function LoginForm({ binder }: { binder: Binder }) {
   const { t } = useLang();
   const router = useRouter();
   const supabase = createClient();
@@ -97,8 +255,20 @@ function LoginForm() {
 
   const [email, setEmail] = useState(demo ? creds.student.email : "");
   const [password, setPassword] = useState(demo ? creds.student.password : "");
+  const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [forgot, setForgot] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("mc_remember_email");
+    if (saved) {
+      setEmail(saved);
+      setRemember(true);
+    }
+  }, []);
 
   const finishLogin = async (userId: string) => {
     const { data: profile } = await supabase
@@ -109,6 +279,8 @@ function LoginForm() {
     if (demo && profile) {
       setDemoCookie(profile as never);
     }
+    if (remember) localStorage.setItem("mc_remember_email", email);
+    else localStorage.removeItem("mc_remember_email");
     router.push(profile?.role === "admin" ? "/admin" : "/dashboard");
     router.refresh();
   };
@@ -120,6 +292,7 @@ function LoginForm() {
     e?.preventDefault();
     setLoading(true);
     setError(null);
+    binder.setStatus("loading");
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email: credentials?.email ?? email,
@@ -128,10 +301,12 @@ function LoginForm() {
 
     if (error || !data.user) {
       setError(t("auth.invalidCredentials"));
+      binder.setStatus("error");
       setLoading(false);
       return;
     }
 
+    binder.setStatus("success");
     await finishLogin(data.user.id);
   };
 
@@ -142,23 +317,107 @@ function LoginForm() {
     void handleLogin(undefined, c);
   };
 
+  const sendReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResetLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    setResetLoading(false);
+    if (error) {
+      setError(error.message);
+      binder.setStatus("error");
+      return;
+    }
+    setResetSent(true);
+    binder.setStatus("success");
+  };
+
+  if (forgot) {
+    return (
+      <form
+        onSubmit={sendReset}
+        onFocusCapture={binder.onFocusCapture}
+        onBlurCapture={binder.onBlurCapture}
+        onInputCapture={binder.onInputCapture}
+        className="space-y-4"
+      >
+        <GitHubInput
+          label={t("auth.email")}
+          name="email"
+          type="email"
+          required
+          autoComplete="username"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        {resetSent ? (
+          <p className="rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+            {t("auth.resetSent")}
+          </p>
+        ) : (
+          <Button type="submit" size="auth" className="w-full" loading={resetLoading}>
+            {t("auth.resetPassword")}
+          </Button>
+        )}
+        <button
+          type="button"
+          onClick={() => setForgot(false)}
+          className="inline-flex items-center gap-1.5 text-sm text-emerald-600 transition-colors hover:text-emerald-700"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {t("auth.backToSignIn")}
+        </button>
+      </form>
+    );
+  }
+
   return (
-    <form onSubmit={handleLogin} className="space-y-4">
+    <form
+      onSubmit={handleLogin}
+      onFocusCapture={binder.onFocusCapture}
+      onBlurCapture={binder.onBlurCapture}
+      onInputCapture={binder.onInputCapture}
+      className="space-y-4"
+    >
       <GitHubInput
         label={t("auth.email")}
+        name="email"
         type="email"
+        required
         autoComplete="username"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <GitHubInput
+      <PasswordField
         label={t("auth.password")}
-        type="password"
+        name="password"
         required
         autoComplete="current-password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        showLabel={t("auth.showPassword")}
+        hideLabel={t("auth.hidePassword")}
+        onVisibilityChange={(v) => binder.setPwVisible("password", v)}
       />
+
+      <div className="flex items-center justify-between">
+        <label className="flex items-center gap-2 text-sm text-slate-600">
+          <input
+            type="checkbox"
+            checked={remember}
+            onChange={(e) => setRemember(e.target.checked)}
+            className="h-4 w-4 rounded border-[#d0d7de] text-emerald-600 focus:ring-emerald-500"
+          />
+          {t("auth.rememberMe")}
+        </label>
+        <button
+          type="button"
+          onClick={() => setForgot(true)}
+          className="text-sm font-medium text-emerald-600 transition-colors hover:text-emerald-700"
+        >
+          {t("auth.forgotPassword")}
+        </button>
+      </div>
 
       {error && (
         <p className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700">
@@ -209,7 +468,7 @@ function LoginForm() {
   );
 }
 
-function RegisterForm() {
+function RegisterForm({ binder }: { binder: Binder }) {
   const { t } = useLang();
   const router = useRouter();
   const supabase = createClient();
@@ -222,6 +481,7 @@ function RegisterForm() {
   const [yearOfStudy, setYearOfStudy] = useState("");
   const [course, setCourse] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -229,9 +489,18 @@ function RegisterForm() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    binder.setStatus("loading");
 
     if (password.length < 6) {
       setError(t("auth.passwordMin"));
+      binder.setStatus("error");
+      setLoading(false);
+      return;
+    }
+
+    if (password !== confirm) {
+      setError(t("auth.passwordsMismatch"));
+      binder.setStatus("error");
       setLoading(false);
       return;
     }
@@ -253,6 +522,7 @@ function RegisterForm() {
 
     if (error) {
       setError(error.message);
+      binder.setStatus("error");
       setLoading(false);
       return;
     }
@@ -280,26 +550,36 @@ function RegisterForm() {
       }
     }
 
+    binder.setStatus("success");
     router.push("/dashboard");
     router.refresh();
   };
 
   return (
-    <form onSubmit={handleRegister} className="space-y-4">
+    <form
+      onSubmit={handleRegister}
+      onFocusCapture={binder.onFocusCapture}
+      onBlurCapture={binder.onBlurCapture}
+      onInputCapture={binder.onInputCapture}
+      className="space-y-4"
+    >
       <GitHubInput
         label={t("auth.fullName")}
+        name="fullName"
         required
         value={fullName}
         onChange={(e) => setFullName(e.target.value)}
       />
       <GitHubInput
         label={t("auth.regNo")}
+        name="regNo"
         required
         value={regNo}
         onChange={(e) => setRegNo(e.target.value)}
       />
       <GitHubInput
         label={t("auth.email")}
+        name="email"
         type="email"
         required
         autoComplete="username"
@@ -308,11 +588,13 @@ function RegisterForm() {
       />
       <GitHubInput
         label={t("auth.phone")}
+        name="phone"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
       />
       <GitHubSelect
         label={t("auth.college")}
+        name="college"
         required
         value={college}
         onChange={(e) => setCollege(e.target.value)}
@@ -325,6 +607,7 @@ function RegisterForm() {
       </GitHubSelect>
       <GitHubSelect
         label={t("auth.yearOfStudy")}
+        name="year"
         required
         value={yearOfStudy}
         onChange={(e) => setYearOfStudy(e.target.value)}
@@ -337,6 +620,7 @@ function RegisterForm() {
       </GitHubSelect>
       <GitHubSelect
         label={t("auth.course")}
+        name="course"
         required
         value={course}
         onChange={(e) => setCourse(e.target.value)}
@@ -351,13 +635,27 @@ function RegisterForm() {
           </optgroup>
         ))}
       </GitHubSelect>
-      <GitHubInput
+      <PasswordField
         label={t("auth.password")}
-        type="password"
+        name="password"
         required
         autoComplete="new-password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        showLabel={t("auth.showPassword")}
+        hideLabel={t("auth.hidePassword")}
+        onVisibilityChange={(v) => binder.setPwVisible("password", v)}
+      />
+      <PasswordField
+        label={t("auth.confirmPassword")}
+        name="confirmPassword"
+        required
+        autoComplete="new-password"
+        value={confirm}
+        onChange={(e) => setConfirm(e.target.value)}
+        showLabel={t("auth.showPassword")}
+        hideLabel={t("auth.hidePassword")}
+        onVisibilityChange={(v) => binder.setPwVisible("confirmPassword", v)}
       />
 
       {error && (

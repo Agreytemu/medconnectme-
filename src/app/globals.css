@@ -167,6 +167,56 @@ body {
   transform-origin: center;
 }
 
+@keyframes char-blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes char-write {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-2px) rotate(7deg);
+  }
+  60% {
+    transform: translateY(1px) rotate(-5deg);
+  }
+}
+
+@keyframes char-think {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.char-blink {
+  animation: char-blink 5.5s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.char-write {
+  animation: char-write 0.9s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: 80% 10%;
+}
+
+.char-think {
+  animation: char-think 1.1s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hand-draw {
     animation: none;
