@@ -35,7 +35,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
           <LanguageToggle />
         </header>
         <div className="flex flex-1 flex-col items-center justify-center px-4 pb-16">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl ring-1 ring-slate-900/5">
+          <div className="w-full max-w-sm rounded-2xl border border-white/40 bg-white/25 p-6 shadow-xl backdrop-blur-md">
             {children}
           </div>
         </div>

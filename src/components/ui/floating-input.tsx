@@ -29,7 +29,7 @@ export const FloatingInput = React.forwardRef<
         )}
       >
         <span className="h-px w-3.5 rounded-tl-xl bg-slate-300 transition-colors group-focus-within:bg-emerald-500" />
-        <span className="px-1.5 text-sm leading-none text-slate-400 transition-colors group-focus-within:text-emerald-600">
+        <span className="px-1.5 text-sm leading-none text-slate-500 transition-colors group-focus-within:text-emerald-600">
           {label}
         </span>
         <span className="h-px flex-1 rounded-tr-xl bg-slate-300 transition-colors group-focus-within:bg-emerald-500" />
@@ -37,7 +37,7 @@ export const FloatingInput = React.forwardRef<
       {/* centered hint label (slides up and fades when floating) */}
       <span
         className={cn(
-          "pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-slate-400 transition-all duration-150 ease-out",
+          "pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-slate-500 transition-all duration-150 ease-out",
           floated ? "top-0 opacity-0" : "opacity-100"
         )}
       >
@@ -89,14 +89,14 @@ export const FloatingSelect = React.forwardRef<
         )}
       >
         <span className="h-px w-3.5 rounded-tl-xl bg-slate-300 transition-colors group-focus-within:bg-emerald-500" />
-        <span className="px-1.5 text-sm leading-none text-slate-400 transition-colors group-focus-within:text-emerald-600">
+        <span className="px-1.5 text-sm leading-none text-slate-500 transition-colors group-focus-within:text-emerald-600">
           {label}
         </span>
         <span className="h-px flex-1 rounded-tr-xl bg-slate-300 transition-colors group-focus-within:bg-emerald-500" />
       </div>
       <span
         className={cn(
-          "pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-slate-400 transition-all duration-150 ease-out",
+          "pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-slate-500 transition-all duration-150 ease-out",
           floated ? "top-0 opacity-0" : "opacity-100"
         )}
       >
