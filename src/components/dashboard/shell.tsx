@@ -26,12 +26,14 @@ function Shell({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex h-screen overflow-hidden bg-slate-50">
       <Sidebar role={profile.role} onLogout={handleLogout} />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 h-full">
         <TopBar />
-        <main className="flex-1 lg:p-6 px-4 pb-24 lg:pb-6 pt-4 max-w-6xl w-full mx-auto">
-          {loggingOut ? <PageLoader /> : children}
+        <main className="flex-1 overflow-y-auto">
+          <div className="max-w-6xl w-full mx-auto lg:p-6 px-4 pb-24 lg:pb-6 pt-4">
+            {loggingOut ? <PageLoader /> : children}
+          </div>
         </main>
       </div>
       <BottomNav role={profile.role} />

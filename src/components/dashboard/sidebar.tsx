@@ -17,7 +17,7 @@ export function Sidebar({
   const { t } = useLang();
 
   return (
-    <aside className="hidden lg:flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
+    <aside className="hidden lg:flex h-full w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
       <div className="flex items-center gap-2.5 px-5 h-16 border-b border-slate-100">
         <Logo className="h-10 w-10 rounded-xl" />
         <div>
