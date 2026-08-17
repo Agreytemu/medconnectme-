@@ -12,12 +12,21 @@ import {
 } from "./sections";
 import { Pricing, FAQ } from "./ending";
 import { About, Contact } from "./about-contact";
+import { Testimonies, Reviews } from "./testimonials-reviews";
+import { FloatingMenu } from "./floating-menu";
 import { PanelScroller } from "./scroller";
 
 export function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
-      <PanelScroller nav={<LandingNav />}>
+      <PanelScroller
+        nav={
+          <>
+            <LandingNav />
+            <FloatingMenu />
+          </>
+        }
+      >
         <Hero />
         <About />
         <DailyView />
@@ -27,8 +36,10 @@ export function LandingPage() {
         <AITutor />
         <SmallThings />
         <Pricing />
-        <FAQ />
+        <Testimonies />
+        <Reviews />
         <Contact />
+        <FAQ />
       </PanelScroller>
     </div>
   );

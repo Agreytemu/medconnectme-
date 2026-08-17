@@ -583,6 +583,7 @@ export const dictionary = {
         caseAlt: "MedConnectMe case log entry",
       },
       testimonial: {
+        kicker: "Testimonials",
         title: "What a student's week looks like.",
         quote1: "I used to keep my rotation hours in three different notebooks. Now I open one page and I know exactly where I stand.",
         name1: "Amina Juma",
@@ -590,6 +591,18 @@ export const dictionary = {
         quote2: "When results come out, I can see my own trend — not just a number. It's the difference between guessing and knowing your revision is working.",
         name2: "Kelvin Mwakasege",
         role2: "MBBS, Year 4 — MUHAS",
+      },
+      reviews: {
+        kicker: "Reviews",
+        title: "Loved by students",
+        subtitle: "Real feedback from medical students and early users.",
+        average: "4.9",
+        count: "from 2,000+ students",
+        items: [
+          { name: "Aisha Said", role: "MBBS, Year 3 — UDSM", rating: 5, text: "The daily view is the first thing I open every morning. I never miss a practical now." },
+          { name: "John Malisa", role: "Clinical officer — Mbeya", rating: 5, text: "Case logs that write themselves. My rotation hours finally add up." },
+          { name: "Grace Mbelwa", role: "MBBS, Year 5 — MUHAS", rating: 4, text: "The AI tutor got me through exam season. Wish I'd had it from year one." },
+        ],
       },
       pricing: {
         title: "Pricing, plainly.",
@@ -1259,6 +1272,7 @@ export const dictionary = {
         caseAlt: "Rekodi ya case log ya MedConnectMe",
       },
       testimonial: {
+        kicker: "Ushuhuda",
         title: "Jinsi wiki ya mwanafunzi inavyoonekana.",
         quote1: "Nilikuwa naenda kuandika masaa ya rotation kwenye madaftari matatu. Sasa nafungua ukurasa mmoja na najua hasa nipo wapi.",
         name1: "Amina Juma",
@@ -1266,6 +1280,18 @@ export const dictionary = {
         quote2: "Matokeo yanapotoka, naona mwendelezo wangu — si namba tu. Ni tofauti kati ya kubahatisha na kujua kurudia kwako kunafanya kazi.",
         name2: "Kelvin Mwakasege",
         role2: "MBBS, Mwaka 4 — MUHAS",
+      },
+      reviews: {
+        kicker: "Tathmini",
+        title: "Inapendwa na wanafunzi",
+        subtitle: "Maoni halisi kutoka kwa wanafunzi wa tiba na watumiaji wa mapema.",
+        average: "4.9",
+        count: "kutoka kwa wanafunzi 2,000+",
+        items: [
+          { name: "Aisha Said", role: "MBBS, Mwaka 3 — UDSM", rating: 5, text: "Mwonekano wa kila siku ndio kwanza ninayofungua kila asubuhi. Sasa sipiti practical kamwe." },
+          { name: "John Malisa", role: "Afisa wa kliniki — Mbeya", rating: 5, text: "Case logs zinajoandikisha zenyewe. Masaa yangu ya rotation yanakaa sawa." },
+          { name: "Grace Mbelwa", role: "MBBS, Mwaka 5 — MUHAS", rating: 4, text: "Tutor wa AI alinisaidia kupita msimu wa mitihani. Ningependa kuwa nayo tangu mwaka wa kwanza." },
+        ],
       },
       pricing: {
         title: "Bei, kwa uwazi.",
