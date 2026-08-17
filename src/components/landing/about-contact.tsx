@@ -17,21 +17,15 @@ function Kicker({ children }: { children: React.ReactNode }) {
 
 export function About() {
   const { t } = useLang();
+  const captions = [
+    { title: t("landing.about.frame1Title"), text: t("landing.about.frame1Text") },
+    { title: t("landing.about.frame2Title"), text: t("landing.about.frame2Text") },
+    { title: t("landing.about.frame3Title"), text: t("landing.about.frame3Text") },
+    { title: t("landing.about.frame4Title"), text: t("landing.about.frame4Text") },
+  ];
   return (
     <Panel id="about">
-      <div className="mx-auto w-full max-w-5xl">
-        <Reveal>
-          <Kicker>{t("landing.about.kicker")}</Kicker>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900">
-            {t("landing.about.title")}
-          </h2>
-          <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-slate-600">
-            {t("landing.about.body")}
-          </p>
-        </Reveal>
-
-        <FrameSequence />
-      </div>
+      <FrameSequence captions={captions} />
     </Panel>
   );
 }
