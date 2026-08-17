@@ -11,6 +11,13 @@ import {
   ClipboardList,
   ArrowLeft,
 } from "lucide-react";
+import {
+  FaFacebook,
+  FaXTwitter,
+  FaInstagram,
+  FaLinkedin,
+  FaGithub,
+} from "react-icons/fa6";
 import { createClient } from "@/lib/supabase/client";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { Logo } from "@/components/ui/logo";
@@ -106,64 +113,93 @@ export function AuthScreen({ initialMode }: { initialMode: Mode }) {
     { icon: ClipboardList, label: t("dashboard.caseLogs") },
   ];
 
+  const SOCIALS = [
+    { label: "Facebook", href: "#", Icon: FaFacebook },
+    { label: "X", href: "#", Icon: FaXTwitter },
+    { label: "Instagram", href: "#", Icon: FaInstagram },
+    { label: "LinkedIn", href: "#", Icon: FaLinkedin },
+    { label: "GitHub", href: "#", Icon: FaGithub },
+  ];
+
   return (
-    <div className="flex h-full w-full" style={{ fontFamily: SYSTEM_FONT }}>
-      <aside className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-gradient-to-br from-emerald-600 to-teal-500 p-12 text-white lg:flex">
-        <div className="relative z-10">
-          <div className="flex items-center gap-3">
-            <Logo className="h-10 w-10 rounded-xl bg-white/15 p-1.5" />
-            <span className="text-lg font-semibold">{t("appName")}</span>
+    <div className="relative flex h-full w-full" style={{ fontFamily: SYSTEM_FONT }}>
+      {/* Brand / motto panel with diagonal edge (desktop) */}
+      <aside
+        className="absolute inset-y-0 left-0 hidden w-[46%] lg:block"
+        style={{ clipPath: "polygon(0 0, 100% 0, 82% 100%, 0 100%)" }}
+      >
+        <div className="flex h-full flex-col justify-between overflow-hidden bg-gradient-to-br from-emerald-600 to-teal-500 p-8 text-white lg:p-10">
+          <div>
+            <div className="flex items-center gap-3">
+              <Logo className="h-10 w-10 rounded-xl bg-white/15 p-1.5" />
+              <span className="text-lg font-semibold">{t("appName")}</span>
+            </div>
           </div>
-        </div>
 
-        <div className="relative z-10 max-w-md">
-          <h1 className="text-4xl font-bold leading-tight">
-            {mode === "login" ? t("auth.loginMotto") : t("auth.registerMotto")}
-          </h1>
-          <p className="mt-4 text-emerald-50/90">
-            {mode === "login"
-              ? t("auth.loginMottoSub")
-              : t("auth.registerMottoSub")}
-          </p>
+          <div className="max-w-md">
+            <h1 className="text-3xl font-bold leading-tight lg:text-4xl">
+              {mode === "login" ? t("auth.loginMotto") : t("auth.registerMotto")}
+            </h1>
+            <p className="mt-4 text-sm text-emerald-50/90 lg:text-base">
+              {mode === "login"
+                ? t("auth.loginMottoSub")
+                : t("auth.registerMottoSub")}
+            </p>
 
-          <svg
-            className="mt-8 w-64 text-white/70"
-            viewBox="0 0 320 60"
-            fill="none"
-            aria-hidden
-          >
-            <path
-              className="hand-draw"
-              d="M0 30 H70 L82 30 L92 10 L104 50 L116 22 L126 30 H170 L182 30 L192 14 L204 46 L216 30 H320"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+            <svg
+              className="mt-8 w-64 text-white/70"
+              viewBox="0 0 320 60"
+              fill="none"
+              aria-hidden
+            >
+              <path
+                className="hand-draw"
+                d="M0 30 H70 L82 30 L92 10 L104 50 L116 22 L126 30 H170 L182 30 L192 14 L204 46 L216 30 H320"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
 
-          <ul className="mt-10 space-y-3">
-            {features.map((f) => (
-              <li
-                key={f.label}
-                className="flex items-center gap-3 text-sm text-emerald-50/90"
-              >
-                <span className="grid h-8 w-8 place-items-center rounded-lg bg-white/15">
-                  <f.icon className="h-4 w-4" />
-                </span>
-                {f.label}
-              </li>
-            ))}
-          </ul>
-        </div>
+            <div className="mt-8 flex items-center gap-3">
+              {SOCIALS.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                  className="grid h-9 w-9 place-items-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/30"
+                >
+                  <s.Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+          </div>
 
-        <div className="relative z-10 text-xs text-emerald-50/70">
-          {t("appTagline")}
+          <div>
+            <ul className="space-y-2.5">
+              {features.map((f) => (
+                <li
+                  key={f.label}
+                  className="flex items-center gap-3 text-sm text-emerald-50/90"
+                >
+                  <span className="grid h-8 w-8 place-items-center rounded-lg bg-white/15">
+                    <f.icon className="h-4 w-4" />
+                  </span>
+                  {f.label}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-xs text-emerald-50/70">{t("appTagline")}</p>
+          </div>
         </div>
       </aside>
 
-      <div className="flex flex-1 items-center justify-center overflow-y-auto p-4 lg:p-8">
-        <div className="my-auto w-full max-w-[420px]">
+      {/* Form panel */}
+      <main className="flex flex-1 overflow-y-auto p-4 sm:p-6 lg:pl-[48%]">
+        <div className="m-auto w-full max-w-[420px]">
           <div className="mb-6 flex items-center gap-3 lg:hidden">
             <Logo className="h-9 w-9 rounded-lg bg-emerald-600 p-1.5" />
             <div>
@@ -216,7 +252,7 @@ export function AuthScreen({ initialMode }: { initialMode: Mode }) {
             )}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
@@ -561,7 +597,7 @@ function RegisterForm({ binder }: { binder: Binder }) {
       onFocusCapture={binder.onFocusCapture}
       onBlurCapture={binder.onBlurCapture}
       onInputCapture={binder.onInputCapture}
-      className="space-y-4"
+      className="grid grid-cols-1 gap-x-3 gap-y-4 sm:grid-cols-2"
     >
       <GitHubInput
         label={t("auth.fullName")}
@@ -659,12 +695,12 @@ function RegisterForm({ binder }: { binder: Binder }) {
       />
 
       {error && (
-        <p className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p className="col-span-2 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700">
           {error}
         </p>
       )}
 
-      <Button type="submit" size="auth" className="w-full" loading={loading}>
+      <Button type="submit" size="auth" className="col-span-2 w-full" loading={loading}>
         {t("auth.createAccount")}
       </Button>
     </form>
