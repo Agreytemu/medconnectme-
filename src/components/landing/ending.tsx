@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
@@ -145,9 +146,21 @@ export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   const columns = [
-    { title: footer.product, links: footer.productLinks },
-    { title: footer.students, links: footer.studentLinks },
-    { title: footer.resources, links: footer.resourceLinks },
+    {
+      title: footer.product,
+      links: footer.productLinks,
+      hrefs: ["/login", "/login", "/login", "/login", "/login"],
+    },
+    {
+      title: footer.students,
+      links: footer.studentLinks,
+      hrefs: ["/login", "/login", "/login", "/login"],
+    },
+    {
+      title: footer.resources,
+      links: footer.resourceLinks,
+      hrefs: ["/#faq", "/#contact", "/privacy", "/terms"],
+    },
   ];
 
   return (
@@ -210,14 +223,14 @@ export function FAQ() {
             <div key={col.title}>
               <p className="text-sm font-medium text-slate-900">{col.title}</p>
               <ul className="mt-3 space-y-2">
-                {col.links.map((link) => (
+                {col.links.map((link, i) => (
                   <li key={link}>
-                    <a
-                      href="#"
+                    <Link
+                      href={col.hrefs[i]}
                       className="text-sm text-slate-600 transition-colors hover:text-slate-900"
                     >
                       {link}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

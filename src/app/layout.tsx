@@ -14,9 +14,41 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MedConnectMe - Dashboard for Medical Students",
+  metadataBase: new URL("https://medconnectme.app"),
+  title: {
+    default: "MedConnectMe — Dashboard for Medical Students",
+    template: "%s — MedConnectMe",
+  },
   description:
     "A quiet place for the daily work of medical school - timetable, results, rotations, case logs, drug formulary and your student ID, in English or Kiswahili.",
+  keywords: [
+    "medical school",
+    "medical students",
+    "dashboard",
+    "timetable",
+    "results",
+    "rotations",
+    "case logs",
+    "MedConnectMe",
+  ],
+  openGraph: {
+    type: "website",
+    url: "https://medconnectme.app",
+    siteName: "MedConnectMe",
+    title: "MedConnectMe — Dashboard for Medical Students",
+    description:
+      "Timetable, results, rotations, case logs, drug formulary and your student ID in one calm place.",
+    images: [
+      { url: "/icon.png", width: 512, height: 512, alt: "MedConnectMe" },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MedConnectMe — Dashboard for Medical Students",
+    description:
+      "Timetable, results, rotations, case logs, drug formulary and your student ID in one calm place.",
+    images: ["/icon.png"],
+  },
 };
 
 export const viewport: Viewport = {

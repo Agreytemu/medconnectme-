@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X, Globe } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { useScroller } from "./scroller";
@@ -8,7 +8,6 @@ import { useScroller } from "./scroller";
 const items = [
   { key: "product", id: "daily" },
   { key: "aiTutor", id: "ai" },
-  { key: "about", id: "about" },
   { key: "pricing", id: "pricing" },
   { key: "contact", id: "contact" },
   { key: "faq", id: "faq" },
@@ -18,14 +17,45 @@ export function FloatingMenu() {
   const { t, lang, toggleLang } = useLang();
   const { scrollTo, activeId } = useScroller();
   const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const go = (id: string) => {
     scrollTo(id);
     setOpen(false);
   };
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    const onDown = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onDown);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onDown);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (open) {
+      ref.current
+        ?.querySelector<HTMLButtonElement>("button:not([aria-label='Menu'])")
+        ?.focus();
+    } else {
+      buttonRef.current?.focus();
+    }
+  }, [open]);
+
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3 md:hidden">
+    <div
+      ref={ref}
+      className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3 md:hidden"
+    >
       {open && (
         <div className="w-60 origin-bottom-right rounded-2xl border border-slate-900/[0.08] bg-white p-2 shadow-[0_24px_48px_-24px_rgba(16,24,40,0.35)]">
           <div className="flex flex-col">
@@ -62,6 +92,7 @@ export function FloatingMenu() {
         </div>
       )}
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label="Menu"

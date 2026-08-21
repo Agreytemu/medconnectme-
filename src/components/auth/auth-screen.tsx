@@ -114,11 +114,11 @@ export function AuthScreen({ initialMode }: { initialMode: Mode }) {
   ];
 
   const SOCIALS = [
-    { label: "Facebook", href: "#", Icon: FaFacebook },
-    { label: "X", href: "#", Icon: FaXTwitter },
-    { label: "Instagram", href: "#", Icon: FaInstagram },
-    { label: "LinkedIn", href: "#", Icon: FaLinkedin },
-    { label: "GitHub", href: "#", Icon: FaGithub },
+    { label: "Facebook", href: "https://www.facebook.com/medconnectme", Icon: FaFacebook },
+    { label: "X", href: "https://x.com/medconnectme", Icon: FaXTwitter },
+    { label: "Instagram", href: "https://www.instagram.com/medconnectme", Icon: FaInstagram },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/medconnectme", Icon: FaLinkedin },
+    { label: "GitHub", href: "https://github.com/medconnectme", Icon: FaGithub },
   ];
 
   return (
